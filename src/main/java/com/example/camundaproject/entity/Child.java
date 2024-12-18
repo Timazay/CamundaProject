@@ -17,7 +17,11 @@ public class Child {
     @JoinColumn(name = "family_id")
     private Family family;
 
-    @OneToMany(mappedBy = "child")
+    @OneToMany(mappedBy = "child", fetch = FetchType.EAGER)
     private List<Task> tasks;
+
+    public void add(Task task){
+        tasks.add(task);
+    }
 
 }

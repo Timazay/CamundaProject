@@ -13,7 +13,6 @@ public class Task {
     private long id;
     private String title;
     private String description;
-    @Column()
     private boolean isComplete;
     @ManyToOne
     @JoinColumn(name = "child_id")
