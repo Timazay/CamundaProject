@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: timazay
+      changes:
+        - insert:
+            tableName: family
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: uniqueName
+                  value: "Smith Family"
+
+        - insert:
+            tableName: parent
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: username
+                  value: "Anton"
+              - column:
+                  name: password
+                  value: "123"
+              - column:
+                  name: family_id
+                  value: 1
+
+        - insert:
+            tableName: child
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: username
+                  value: "Lesha"
+              - column:
+                  name: password
+                  value: "123"
+              - column:
+                  name: family_id
+                  value: 1

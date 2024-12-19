@@ -1,0 +1,127 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: timazay
+      changes:
+        - createTable:
+            tableName: family
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: uniqueName
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+
+        - createTable:
+            tableName: child
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: family_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+            foreignKeys:
+              - foreignKey:
+                  name: fk_child_family
+                  referencedTable: family
+                  referencedColumn: id
+                  column: family_id
+
+        - createTable:
+            tableName: parent
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: family_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+            foreignKeys:
+              - foreignKey:
+                  name: fk_parent_family
+                  referencedTable: family
+                  referencedColumn: id
+                  column: family_id
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: report
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: isComplete
+                  type: boolean
+                  constraints:
+                    nullable: false
+                    defaultValueBoolean: false
+              - column:
+                  name: child_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+            foreignKeys:
+              - foreignKey:
+                  name: fk_task_child
+                  referencedTable: child
+                  referencedColumn: id
+                  column: child_id

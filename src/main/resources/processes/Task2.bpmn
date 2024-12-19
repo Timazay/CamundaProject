@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wh0ht5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.30.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
   <bpmn:collaboration id="Collaboration_0ntss83">
-    <bpmn:participant id="Participant_1ckrx9r" name="Родитель" processRef="Process_19i3bec" />
-    <bpmn:participant id="Participant_1002tlw" name="Ребенок" processRef="Process_0q0365z" />
+    <bpmn:participant id="Participant_1ckrx9r" name="Родитель" processRef="Parent_Process" />
+    <bpmn:participant id="Participant_1002tlw" name="Ребенок" processRef="Child_Process" />
     <bpmn:textAnnotation id="TextAnnotation_09crklz">
       <bpmn:text>Выбирает создать задачу ребенку</bpmn:text>
     </bpmn:textAnnotation>
@@ -16,7 +16,7 @@
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1gvjvm8" associationDirection="None" sourceRef="Flow_1a26j0o" targetRef="TextAnnotation_13zpb3b" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_19i3bec" isExecutable="true">
+  <bpmn:process id="Parent_Process" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_1virqvu" sourceRef="Activity_11icusv" targetRef="Gateway_1cyld9e" />
     <bpmn:sequenceFlow id="Flow_1lucigl" sourceRef="Activity_1kop7bb" targetRef="Gateway_1cyld9e" />
     <bpmn:sequenceFlow id="Flow_0o3gqxy" sourceRef="Gateway_1cyld9e" targetRef="Event_04icub9" />
@@ -153,7 +153,7 @@
       <bpmn:outgoing>Flow_0p01ci1</bpmn:outgoing>
     </bpmn:startEvent>
   </bpmn:process>
-  <bpmn:process id="Process_0q0365z" isExecutable="true">
+  <bpmn:process id="Child_Process" isExecutable="true">
     <bpmn:exclusiveGateway id="Gateway_02y7ssk">
       <bpmn:incoming>Flow_0v99yw2</bpmn:incoming>
       <bpmn:incoming>Flow_0vomwcj</bpmn:incoming>
@@ -168,10 +168,6 @@
       </bpmn:extensionElements>
       <bpmn:outgoing>Flow_1n0k2l9</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Activity_0tsm7q2" name="Ребенок завершает задание" camunda:delegateExpression="${completeTask}">
-      <bpmn:incoming>Flow_05wirbo</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ekrpxd</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Gateway_1e7mzu4">
       <bpmn:incoming>Flow_0gn030c</bpmn:incoming>
       <bpmn:outgoing>Flow_05wirbo</bpmn:outgoing>
@@ -216,19 +212,6 @@
       <bpmn:incoming>Flow_178l2q8</bpmn:incoming>
       <bpmn:outgoing>Flow_0uktl6u</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1qimxxr" name="Ребенок пишет отчет о выполненном задании">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="report" label="Напиши отчет" type="string" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0ekrpxd</bpmn:incoming>
-      <bpmn:outgoing>Flow_0wiswbx</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_0j9ajmk" name="Ребенок устанавливает отчет" camunda:delegateExpression="${reportSet}">
-      <bpmn:incoming>Flow_0wiswbx</bpmn:incoming>
-      <bpmn:outgoing>Flow_0v99yw2</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_1l44gx4" name="Ребенок устанавливает объяснительную" camunda:delegateExpression="${reportSet}">
       <bpmn:incoming>Flow_0uktl6u</bpmn:incoming>
       <bpmn:outgoing>Flow_0vomwcj</bpmn:outgoing>
@@ -254,6 +237,23 @@
     <bpmn:sequenceFlow id="Flow_178l2q8" sourceRef="Activity_1jvrxq6" targetRef="Activity_1k3g3o9" />
     <bpmn:sequenceFlow id="Flow_0uktl6u" sourceRef="Activity_1k3g3o9" targetRef="Activity_1l44gx4" />
     <bpmn:sequenceFlow id="Flow_0wiswbx" sourceRef="Activity_1qimxxr" targetRef="Activity_0j9ajmk" />
+    <bpmn:serviceTask id="Activity_0tsm7q2" name="Ребенок завершает задание" camunda:delegateExpression="${completeTask}">
+      <bpmn:incoming>Flow_05wirbo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ekrpxd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_1qimxxr" name="Ребенок пишет отчет о выполненном задании">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="report" label="Напиши отчет" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ekrpxd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wiswbx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_0j9ajmk" name="Ребенок устанавливает отчет" camunda:delegateExpression="${reportSet}">
+      <bpmn:incoming>Flow_0wiswbx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v99yw2</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_1b1vmll" name="Message_1b1vmll" />
   <bpmn:error id="Error_1kt5oni" name="Error_3hc6ag1" />
@@ -402,10 +402,6 @@
       <bpmndi:BPMNShape id="Event_1viw6ng_di" bpmnElement="Event_1viw6ng">
         <dc:Bounds x="190" y="1062" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0p3qtdv_di" bpmnElement="Activity_0tsm7q2">
-        <dc:Bounds x="898" y="910" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1e7mzu4_di" bpmnElement="Gateway_1e7mzu4" isMarkerVisible="true">
         <dc:Bounds x="923" y="1055" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -431,19 +427,23 @@
       <bpmndi:BPMNShape id="Activity_1wb7tiv_di" bpmnElement="Activity_1k3g3o9">
         <dc:Bounds x="1088" y="1170" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_00js0h7_di" bpmnElement="Activity_1qimxxr">
-        <dc:Bounds x="1088" y="910" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_09rua1g_di" bpmnElement="Activity_0j9ajmk">
-        <dc:Bounds x="1278" y="910" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ompxdp_di" bpmnElement="Activity_1l44gx4">
         <dc:Bounds x="1278" y="1170" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1py89rh_di" bpmnElement="Event_1py89rh">
         <dc:Bounds x="1570" y="1062" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p3qtdv_di" bpmnElement="Activity_0tsm7q2">
+        <dc:Bounds x="898" y="910" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00js0h7_di" bpmnElement="Activity_1qimxxr">
+        <dc:Bounds x="1088" y="910" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09rua1g_di" bpmnElement="Activity_0j9ajmk">
+        <dc:Bounds x="1278" y="910" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0v99yw2_di" bpmnElement="Flow_0v99yw2">
         <di:waypoint x="1378" y="950" />
