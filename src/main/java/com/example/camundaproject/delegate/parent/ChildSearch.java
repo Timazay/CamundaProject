@@ -1,4 +1,4 @@
-package com.example.camundaproject.delegate;
+package com.example.camundaproject.delegate.parent;
 
 import com.example.camundaproject.entity.Child;
 import com.example.camundaproject.entity.Parent;

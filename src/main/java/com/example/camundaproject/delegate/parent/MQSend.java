@@ -1,9 +1,8 @@
-package com.example.camundaproject.delegate;
+package com.example.camundaproject.delegate.parent;
 
 import com.example.camundaproject.entity.Child;
 import com.example.camundaproject.entity.Task;
 import com.example.camundaproject.repository.ChildRepository;
-import com.example.camundaproject.repository.ParentRepository;
 import com.example.camundaproject.repository.TaskRepository;
 import com.example.camundaproject.service.SendMessengerService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;

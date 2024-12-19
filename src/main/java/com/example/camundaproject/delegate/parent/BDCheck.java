@@ -1,4 +1,4 @@
-package com.example.camundaproject.delegate;
+package com.example.camundaproject.delegate.parent;
 
 import com.example.camundaproject.entity.Child;
 import com.example.camundaproject.entity.Task;
@@ -9,8 +9,8 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component("cancelBD")
-public class CancelBD implements JavaDelegate {
+@Component("bDCheck")
+public class BDCheck implements JavaDelegate {
     @Autowired
     private TaskRepository repository;
     @Autowired
@@ -27,7 +27,6 @@ public class CancelBD implements JavaDelegate {
         for (Task t : child.getTasks()) {
             if (t.equals(task)) {
                 isChildTask = true;
-                repository.delete(t);
                 break;
             }
         }
@@ -35,6 +34,5 @@ public class CancelBD implements JavaDelegate {
         if (!isChildTask){
             throw new Exception("There is no such child task");
         }
-
     }
 }
